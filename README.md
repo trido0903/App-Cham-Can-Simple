@@ -1,10 +1,9 @@
-[Uploading Index.html…]()
-# App-Cham-Can-Simple
+[Index (1).html](https://github.com/user-attachments/files/33764128/Index.1.html)
 <!DOCTYPE html>
 <html lang="vi" data-theme="dark">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>In4 Selector</title>
   <style>
     :root, [data-theme="dark"] {
@@ -340,15 +339,21 @@
   <script>
     const themeBtn = document.getElementById('themeBtn');
     const html = document.documentElement;
-    const saved = localStorage.getItem('in4-theme') || 'dark';
-    html.setAttribute('data-theme', saved);
-    themeBtn.textContent = saved === 'dark' ? '☀️' : '🌙';
+    let savedTheme = 'dark';
+    try {
+      const storedTheme = localStorage.getItem('in4-theme');
+      if (storedTheme === 'dark' || storedTheme === 'light') savedTheme = storedTheme;
+    } catch (_) {
+      // Continue with the default theme when browser storage is unavailable.
+    }
+    html.setAttribute('data-theme', savedTheme);
+    themeBtn.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
 
     themeBtn.addEventListener('click', () => {
       const current = html.getAttribute('data-theme');
       const next = current === 'dark' ? 'light' : 'dark';
       html.setAttribute('data-theme', next);
-      localStorage.setItem('in4-theme', next);
+      try { localStorage.setItem('in4-theme', next); } catch (_) { /* Theme still changes for this page view. */ }
       themeBtn.textContent = next === 'dark' ? '☀️' : '🌙';
     });
 
